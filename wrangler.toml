@@ -1,0 +1,15 @@
+name = "cloudflare-os-lab"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Canonical hostname (Site Ops binds): os.rclabs.in
+# Do not self-attach custom domains from this repo.
+
+[[durable_objects.bindings]]
+name = "GADGET"
+class_name = "GadgetRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GadgetRoom"]
