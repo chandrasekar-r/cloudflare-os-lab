@@ -1,32 +1,26 @@
 {
-  "verified_at": "2026-10-02T10:05:08+02:00",
+  "verified_at": "2026-10-02T10:05:57+02:00",
   "canonical_url": "https://os.rclabs.in",
-  "workers_dev": "https://cloudflare-os-lab.rcgpt.workers.dev",
   "worker_name": "cloudflare-os-lab",
-  "account_subdomain": "rcgpt",
-  "durable_object": {
-    "binding": "GADGET",
-    "class_name": "GadgetRoom",
-    "migration_tag": "v1",
-    "storage": "sqlite"
-  },
-  "note": "Public lab. Site Ops binds os.rclabs.in. Publish only measured numbers. Prefer canonical host in posts.",
-  "smoke": {
-    "GET /": { "status": 200, "latency_ms": 75, "bytes": 10695 },
-    "GET /api/health": { "status": 200, "latency_ms": 59 },
-    "POST /api/room smoke-alpha": { "status": 200, "latency_ms": 272 },
-    "POST /api/room smoke-beta": { "status": 200, "latency_ms": 231 },
-    "POST /api/room/smoke-alpha move cell 4": { "status": 200, "latency_ms": 74, "board_cell_4": "X", "moves": 1 },
-    "GET /api/room/smoke-beta after A mutate": { "status": 200, "latency_ms": 68, "moves": 0, "board_all_null": true }
-  },
-  "isolation": {
-    "proved": true,
-    "detail": "Move on smoke-alpha set board[4]=X; smoke-beta remained empty (moves=0)."
-  },
-  "self_eval": "PASS",
   "site_ops_bind": {
     "hostname": "os.rclabs.in",
     "worker": "cloudflare-os-lab",
-    "blocker": "Custom domain not attached by this deploy (Site Ops owns bind). workers.dev enabled for pre-bind smoke."
-  }
+    "status": "live"
+  },
+  "GET /": {
+    "status": 200,
+    "latency_ms": 41,
+    "bytes": 11465
+  },
+  "isolation": {
+    "proved": true,
+    "room_a": null,
+    "room_b_moves_after_a_mutate": 0,
+    "detail": "Move on A set board[4]=X; B remained empty (moves=0) on https://os.rclabs.in"
+  },
+  "self_eval": "PASS",
+  "claims_forbidden": [
+    "do not claim this is a full Access-gated Cloudflare OS deploy",
+    "prefer os.rclabs.in over workers.dev"
+  ]
 }
