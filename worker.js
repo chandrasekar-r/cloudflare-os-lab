@@ -106,7 +106,7 @@ footer ul{list-style:none;padding:0;margin:.5rem 0 0;display:flex;flex-wrap:wrap
 </div>
 <div class="api">POST /api/room → {"room":"optional-id"}<br>GET /api/room/:id<br>POST /api/room/:id → {"action":"move","cell":0..8} | {"action":"reset"}</div>
 </section>
-<div class="note"><strong>Honest scope:</strong> this page is the public explainer at <code>os-lab.rclabs.in</code>. A full company Cloudflare OS deploy is separate and sits behind Cloudflare Access. This Worker does not self-attach custom domains.</div>
+<div class="note"><strong>Honest scope:</strong> this page is the public explainer at <code>os-lab.rclabs.in</code>. A full company Cloudflare OS deploy is separate and sits behind Cloudflare Access. This Worker does not self-attach custom domains. Sandbox SDK 1.0 is a separate Worker at <a href="https://sandbox.rclabs.in">sandbox.rclabs.in</a> (lite container, internet off). It is not this lab.</div>
 <footer>
 <div>Built for Chandrasekar · canonical <a href="https://os-lab.rclabs.in">https://os-lab.rclabs.in</a></div>
 <ul>
@@ -114,6 +114,7 @@ footer ul{list-style:none;padding:0;margin:.5rem 0 0;display:flex;flex-wrap:wrap
 <li><a href="https://github.com/cloudflare/cloudflare-os">github.com/cloudflare/cloudflare-os</a></li>
 <li><a href="https://clef-kv.rclabs.in">clef-kv.rclabs.in</a></li>
 <li><a href="https://clef-precheck.rclabs.in">clef-precheck.rclabs.in</a></li>
+<li><a href="https://sandbox.rclabs.in">sandbox.rclabs.in</a></li>
 </ul>
 </footer>
 </div>
@@ -150,7 +151,7 @@ document.getElementById("gk").onclick=()=>{const ok=Math.random()>0.35;const c=d
 export default{async fetch(req,env){
   const url=new URL(req.url);const path=url.pathname.replace(/\/+$/,"")||"/";
   if(req.method==="OPTIONS")return new Response(null,{headers:CORS});
-  if(path==="/api/health")return json({ok:true,worker:"cloudflare-os-lab",canonical:"https://os-lab.rclabs.in",note:"Public lab at os-lab.rclabs.in. Full Cloudflare OS is a separate Access-gated deploy."});
+  if(path==="/api/health")return json({ok:true,worker:"cloudflare-os-lab",canonical:"https://os-lab.rclabs.in",note:"Public lab at os-lab.rclabs.in. Full Cloudflare OS is a separate Access-gated deploy. Sandbox SDK 1.0 proof is https://sandbox.rclabs.in."});
   const m=path.match(/^\/api\/room\/([a-z0-9_-]{1,32})$/i);
   if(m){
     const id=roomId(m[1]);if(!id)return json({error:"invalid room id"},400);
