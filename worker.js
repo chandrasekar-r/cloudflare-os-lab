@@ -1,6 +1,6 @@
 /**
  * cloudflare-os-lab — public explainer + isolated-state gadget
- * Canonical: https://os.rclabs.in
+ * Canonical: https://os-lab.rclabs.in
  */
 const CORS={"access-control-allow-origin":"*","access-control-allow-methods":"GET, POST, OPTIONS","access-control-allow-headers":"content-type"};
 const json=(d,s=200)=>new Response(JSON.stringify(d,null,2),{status:s,headers:{"content-type":"application/json;charset=utf-8",...CORS}});
@@ -43,7 +43,7 @@ function stub(env,id){return env.GADGET.get(env.GADGET.idFromName(id));}
 const HTML=`<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cloudflare OS Lab — os.rclabs.in</title>
+<title>Cloudflare OS Lab — os-lab.rclabs.in</title>
 <style>
 :root{--bg:#0b0d10;--p:#14181f;--p2:#1a2029;--bd:#2a3340;--t:#e8edf4;--m:#9aa7b8;--a:#f6821f;--b:#3b82f6;--ok:#34d399;--f:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 var(--f)}
@@ -106,9 +106,9 @@ footer ul{list-style:none;padding:0;margin:.5rem 0 0;display:flex;flex-wrap:wrap
 </div>
 <div class="api">POST /api/room → {"room":"optional-id"}<br>GET /api/room/:id<br>POST /api/room/:id → {"action":"move","cell":0..8} | {"action":"reset"}</div>
 </section>
-<div class="note"><strong>Honest scope:</strong> a full company Cloudflare OS deploy is separate — typically Cloudflare Access–gated, with AI Gateway for models. This hostname is a public explainer lab only. Site Ops binds <code>os.rclabs.in</code>; this Worker does not self-attach custom domains.</div>
+<div class="note"><strong>Honest scope:</strong> this page is the public explainer at <code>os-lab.rclabs.in</code>. A full company Cloudflare OS deploy is separate and sits behind Cloudflare Access. This Worker does not self-attach custom domains.</div>
 <footer>
-<div>Built for Chandrasekar · canonical <a href="https://os.rclabs.in">https://os.rclabs.in</a></div>
+<div>Built for Chandrasekar · canonical <a href="https://os-lab.rclabs.in">https://os-lab.rclabs.in</a></div>
 <ul>
 <li><a href="https://os.cloudflare.app/">os.cloudflare.app</a></li>
 <li><a href="https://github.com/cloudflare/cloudflare-os">github.com/cloudflare/cloudflare-os</a></li>
@@ -150,7 +150,7 @@ document.getElementById("gk").onclick=()=>{const ok=Math.random()>0.35;const c=d
 export default{async fetch(req,env){
   const url=new URL(req.url);const path=url.pathname.replace(/\/+$/,"")||"/";
   if(req.method==="OPTIONS")return new Response(null,{headers:CORS});
-  if(path==="/api/health")return json({ok:true,worker:"cloudflare-os-lab",canonical:"https://os.rclabs.in",note:"Public lab. Full Cloudflare OS deploy is separate (Access + AI Gateway)."});
+  if(path==="/api/health")return json({ok:true,worker:"cloudflare-os-lab",canonical:"https://os-lab.rclabs.in",note:"Public lab at os-lab.rclabs.in. Full Cloudflare OS is a separate Access-gated deploy."});
   const m=path.match(/^\/api\/room\/([a-z0-9_-]{1,32})$/i);
   if(m){
     const id=roomId(m[1]);if(!id)return json({error:"invalid room id"},400);
@@ -164,7 +164,7 @@ export default{async fetch(req,env){
     const g=await res.json();
     return json({ok:true,room:id,created:true,...g,room_id:id});
   }
-  if(path==="/api"||path==="/api/")return json({worker:"cloudflare-os-lab",canonical:"https://os.rclabs.in",endpoints:{"GET /":"HTML lab UI","GET /api/health":"liveness","POST /api/room":'{"room":"optional-id"}',"GET /api/room/:id":"state","POST /api/room/:id":'{"action":"move|reset"}'},proves:["Workspace-shaped DO holds gadget state","Room IDs isolated (separate DO instances)","Public lab — no Cloudflare Access"]});
+  if(path==="/api"||path==="/api/")return json({worker:"cloudflare-os-lab",canonical:"https://os-lab.rclabs.in",endpoints:{"GET /":"HTML lab UI","GET /api/health":"liveness","POST /api/room":'{"room":"optional-id"}',"GET /api/room/:id":"state","POST /api/room/:id":'{"action":"move|reset"}'},proves:["Workspace-shaped DO holds gadget state","Room IDs isolated (separate DO instances)","Public lab — no Cloudflare Access"]});
   if(path!=="/"&&path!=="/index.html")return json({error:"not found",try:["/","/api","/api/health","/api/room/:id"]},404);
   return new Response(HTML,{headers:{"content-type":"text/html;charset=utf-8","cache-control":"public, max-age=60",...CORS}});
 }};

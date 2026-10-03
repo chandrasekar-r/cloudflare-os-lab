@@ -2,7 +2,7 @@
 
 Public lab Worker that explains [Cloudflare OS](https://os.cloudflare.app/) concepts with a working isolated-state gadget.
 
-**Canonical URL:** https://os.rclabs.in  
+**Canonical URL:** https://os-lab.rclabs.in  
 **Worker name:** `cloudflare-os-lab`  
 **Repo:** https://github.com/chandrasekar-r/cloudflare-os-lab
 
@@ -20,23 +20,23 @@ This is **not** a full Cloudflare OS deploy. A company OS typically needs Cloudf
 
 ```bash
 # Health
-curl -sS https://os.rclabs.in/api/health
+curl -sS https://os-lab.rclabs.in/api/health
 
 # Create / open a room
-curl -sS https://os.rclabs.in/api/room \
+curl -sS https://os-lab.rclabs.in/api/room \
   -H 'content-type: application/json' \
   -d '{"room":"demo-alpha"}'
 
 # Read state
-curl -sS https://os.rclabs.in/api/room/demo-alpha
+curl -sS https://os-lab.rclabs.in/api/room/demo-alpha
 
 # Move (tic-tac-toe cell 0..8)
-curl -sS https://os.rclabs.in/api/room/demo-alpha \
+curl -sS https://os-lab.rclabs.in/api/room/demo-alpha \
   -H 'content-type: application/json' \
   -d '{"action":"move","cell":4}'
 
 # Reset
-curl -sS https://os.rclabs.in/api/room/demo-alpha \
+curl -sS https://os-lab.rclabs.in/api/room/demo-alpha \
   -H 'content-type: application/json' \
   -d '{"action":"reset"}'
 ```
@@ -44,7 +44,7 @@ curl -sS https://os.rclabs.in/api/room/demo-alpha \
 ## Deploy notes
 
 - Bindings: Durable Object `GADGET` → class `GadgetRoom` (SQLite-backed, migration tag `v1`).
-- Site Ops owns custom domain bind for `os.rclabs.in`. Do not attach domains from scripts here.
+- Public hostname is `os-lab.rclabs.in` (Site Ops binds it). Do not attach `os.rclabs.in` from this repo; that host is the Access-gated OS, not this lab.
 - Temporary smoke host: `https://cloudflare-os-lab.rcgpt.workers.dev`.
 
 ## Links

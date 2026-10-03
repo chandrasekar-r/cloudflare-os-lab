@@ -3,7 +3,8 @@ main = "worker.js"
 compatibility_date = "2026-10-01"
 workers_dev = true
 
-# Canonical hostname (Site Ops binds): os.rclabs.in
+# Canonical hostname (Site Ops binds): os-lab.rclabs.in
+# Do not bind os.rclabs.in — that host is the Access-gated OS.
 # Do not self-attach custom domains from this repo.
 
 [[durable_objects.bindings]]
